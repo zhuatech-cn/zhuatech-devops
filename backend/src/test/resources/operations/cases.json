@@ -1,0 +1,56 @@
+[
+  {
+    "patch": {},
+    "expected": {
+      "decision": "PASS",
+      "baselineErrorPct": "#1",
+      "canaryErrorPct": "#1.5",
+      "deltaPercentagePoints": "#0.5"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "canaryErrors": "21"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "canaryErrors": "20"
+    },
+    "expected": {
+      "decision": "PASS"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "minimumSamples": "1001"
+    },
+    "expected": {
+      "decision": "REVIEW"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "canaryErrors": "1001"
+    },
+    "expected": {},
+    "error": true
+  },
+  {
+    "patch": {
+      "canaryRequests": "1000000",
+      "canaryErrors": "20001"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false
+  }
+]
