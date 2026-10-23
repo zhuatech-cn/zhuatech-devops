@@ -1,0 +1,81 @@
+{
+  "slug": "devops",
+  "title": "发布变更窗口与双人复核预检",
+  "fields": [
+    {
+      "key": "release_no",
+      "label": "发布编号",
+      "type": "ID",
+      "length": 200
+    },
+    {
+      "key": "service",
+      "label": "服务",
+      "type": "ID",
+      "length": 200
+    },
+    {
+      "key": "requester",
+      "label": "申请人",
+      "type": "ID",
+      "length": 200
+    },
+    {
+      "key": "reviewer",
+      "label": "复核人",
+      "type": "ID",
+      "length": 200
+    },
+    {
+      "key": "window_start",
+      "label": "窗口开始",
+      "type": "DATE",
+      "length": 200
+    },
+    {
+      "key": "window_end",
+      "label": "窗口结束",
+      "type": "DATE",
+      "length": 200
+    }
+  ],
+  "unique": [
+    [
+      "release_no"
+    ]
+  ],
+  "rules": [
+    {
+      "op": "DIFFERENT",
+      "args": [
+        "requester",
+        "reviewer"
+      ],
+      "code": "RELEASE_SELF_REVIEW",
+      "message": "发布申请与复核应由不同人员完成",
+      "bad": {
+        "reviewer": "DEV-01"
+      }
+    },
+    {
+      "op": "DATE_LE",
+      "args": [
+        "window_start",
+        "window_end"
+      ],
+      "code": "RELEASE_WINDOW",
+      "message": "窗口结束不能早于开始",
+      "bad": {
+        "window_end": "2026-10-31"
+      }
+    }
+  ],
+  "sampleCsv": "release_no,service,requester,reviewer,window_start,window_end\nREL-001,APP-01,DEV-01,OPS-01,2026-11-01,2026-11-02\n",
+  "limits": {
+    "rows": 500,
+    "bytes": 262144,
+    "columns": 32,
+    "cellCharacters": 4000
+  },
+  "scope": "Read-only batch validation; no persistence, reference-master lookup or full production certification."
+}
